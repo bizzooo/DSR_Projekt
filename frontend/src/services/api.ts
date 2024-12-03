@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Define the base URL for the API
-const API_URL = 'http://localhost:8000'; // Update with your backend's URL
+const API_URL = 'http://localhost:8000'; 
 
 export interface User {
     id: number;
@@ -12,7 +11,6 @@ export interface User {
     weight: number | null;
 }
 
-// Fetch all users
 export const getUsers = async (): Promise<User[]> => {
     try {
         const response = await axios.get<User[]>(`${API_URL}/index.php?route=users`);
