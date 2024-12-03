@@ -9,12 +9,12 @@ const UsersList: React.FC = () => {
         const fetchUsers = async () => {
             try {
                 const data = await getUsers();
-                console.log('Fetched Users:', data); // Add this log
+                console.log('Fetched Users:', data);
                 setUsers(data);
                 setLoading(false);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
-                setLoading(false); // Ensure loading stops on error
+                setLoading(false);
             }
         };
         fetchUsers();
