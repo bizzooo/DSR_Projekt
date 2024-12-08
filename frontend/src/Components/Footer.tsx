@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <div>
-      <p>Footer</p>
+      <p>Vid Bezget DSR 2024</p>
     </div>
   );
 }

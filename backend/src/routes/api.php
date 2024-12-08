@@ -36,5 +36,24 @@ if ($route === 'users') {
          echo json_encode($controller->getLogs());
      }
  }
-// Add similar conditions for Workouts, CalorieLogs, WorkoutLogs
+ if ($route === 'register' && $method === 'POST') {
+    $controller = new UsersController($pdo);
+    $data = json_decode(file_get_contents('php://input'), true); // Get JSON payload
+    if ($controller->register($data)) {
+        echo json_encode(['message' => 'Registration successful']);
+    } else {
+        http_response_code(400);
+        echo json_encode(['message' => 'Registration failed']);
+    }
+} elseif ($route === 'login' && $method === 'POST') {
+    $controller = new UsersController($pdo);
+    $data = json_decode(file_get_contents('php://input'), true); // Get JSON payload
+    $user = $controller->login($data);
+    if ($user) {
+        echo json_encode(['message' => 'Login successful', 'user' => $user]);
+    } else {
+        http_response_code(401);
+        echo json_encode(['message' => 'Invalid email or password']);
+    }
+}
 ?>

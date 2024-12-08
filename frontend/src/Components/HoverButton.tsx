@@ -1,24 +1,32 @@
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface HoverButtonProps {
-  ime: string;
-  priimek: string;
+  text: string;
+  onClick?: string;
 }
 
-function HoverButton({ ime, priimek }: HoverButtonProps) {
+function HoverButton({ text, onClick}: HoverButtonProps) {
   const [isHovered, setHovered] = useState(false);
+  const { logout } = useAuth();
+
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="relative ml-2 mr-5 flex rounded-md pl-1 pr-1 transition duration-300 hover:border-slate-400"
     >
-      {ime === '' && priimek === '' && <h1>Sign in</h1>}
-      {ime !== '' && priimek !== '' && (
-        <h1>
-          {ime} {priimek}
-        </h1>
-      )}
+        {onClick=="logout" && (
+          <button onClick={logout}>
+          {text} 
+          </button>
+        )}
+        {onClick!="logout" && (
+          <button>
+          {text} 
+          </button>
+        )}
+
       <span
         style={{
           transform: isHovered ? 'scaleX(1)' : 'scaleX(0)',
