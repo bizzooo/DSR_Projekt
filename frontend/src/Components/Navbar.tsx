@@ -1,4 +1,3 @@
-import React from 'react';
 import FlyoutMenu from './FlyoutMenu';
 import HoverButton from './HoverButton';
 import IconGymnastics from './IconComponents/IconGymnastics';
@@ -6,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="p-4ex flex justify-between border-b-2 border-slate-300 bg-slate-100 py-4 text-slate-900">

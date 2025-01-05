@@ -18,21 +18,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-     const storedUser = sessionStorage.getItem('user');
-     if (storedUser) {
-         setUser(JSON.parse(storedUser));
-     }
- }, []);
+        const storedUser = sessionStorage.getItem('user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error('Failed to parse user from sessionStorage:', error);
+                sessionStorage.removeItem('user'); // Clear invalid value
+            }
+        }
+    }, []);
 
- const login = (user: User) => {
-     setUser(user);
-     sessionStorage.setItem('user', JSON.stringify(user)); // Store user data in localStorage
- };
+    const login = (user: User) => {
+        setUser(user);
+        sessionStorage.setItem('user', JSON.stringify(user)); 
+    };
 
- const logout = () => {
-     setUser(null);
-     sessionStorage.removeItem('user'); // Remove user data from localStorage
- };
+    const logout = () => {
+        setUser(null);
+        sessionStorage.removeItem('user');
+    };
+
     return (
         <AuthContext.Provider value={{ user, login, logout }}>
             {children}

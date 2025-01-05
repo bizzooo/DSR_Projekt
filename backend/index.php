@@ -8,6 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../src/routes/api.php';
+require_once __DIR__ . '/src/routes/api.php';
 //php -S localhost:8000 -t public/
 ?>

@@ -1,59 +1,44 @@
 version: '3.8'
 
 services:
-  # Backend service (Laravel)
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: laravel-app
+    ports:
+      - "8000:80"
     volumes:
       - ./backend:/var/www/html
-      - ./backend/php.ini:/usr/local/etc/php/php.ini # Optional PHP config
-    ports:
-      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=starwars112
+      - DB_DATABASE=mydb
     depends_on:
       - db
 
-  # Frontend service (React)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: react-app
-    volumes:
-      - ./frontend:/app
     ports:
-      - "3000:3000"
-    stdin_open: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - "3000:80" # Nginx for production
 
-  # MySQL database
   db:
-    image: mysql:5.7
-    container_name: laravel-db
-    restart: always
+    image: mysql:8.0
+    container_name: mysql_container
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: starwars112
+      MYSQL_DATABASE: mydb
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-
-  # phpMyAdmin for database management
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
+      - ./db-init:/docker-entrypoint-initdb.d
 
 volumes:
   db_data:
+
+networks:
+  default:
+    name: my_network
